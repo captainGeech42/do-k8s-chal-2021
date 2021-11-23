@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import { Component, useState } from "react";
+import Button from "./components/Button.js";
+import axios from "axios"
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [data, setData] = useState(0);
+
+    function click() {
+        console.log("clicked");
+        axios.get("/test").then((res) => {
+            const data = res.data;
+            setData(data);
+        });
+    }
+
+    return (
+        <div>
+            <Button body="test button" onClick={click}/>
+            <br/>
+            <h1>{data}</h1>
+        </div>
+    );
 }
 
 export default App;

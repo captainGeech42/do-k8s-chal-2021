@@ -11,5 +11,6 @@ RUN npm install --production
 # copy source
 COPY . .
 
+# run
 EXPOSE 3100
 CMD ["node", "server.js"]
