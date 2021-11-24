@@ -1,4 +1,4 @@
-import styled from "@emotion/styled/macro"
+import styled from "@emotion/styled"
 
 function Button({body, onClick}) {
     var Button = styled.button`

@@ -1,4 +1,5 @@
 const express = require("express");
+const morgan = require("morgan");
 const path = require("path");
 
 const app = express();
@@ -7,22 +8,16 @@ var expressWs = require('express-ws')(app);
 
 const port = process.env.PORT || 3100;
 
-//app.get("*", (req, res, next) => {
-//    console.log("got req");
-//    next(req, res);
-//})
+app.use(morgan("combined"));
 
 app.ws("/", (ws, req) => {
-    ws.on("client_join", (msg) => {
-        console.log(`[WS] client_join event: ${msg}`);
-    });
-    ws.on("client_leave", (msg) => {
-        console.log(`[WS] client_leave event: ${msg}`);
+    ws.on("message", (msg) => {
+        console.log(`[WS] new message: ${msg}`);
+        ws.send(`ack message: ${msg}`);
     });
 });
 
 app.get("/test", (_, res) => {
-    console.log("got request")
     res.send("hello world");
 });
 
