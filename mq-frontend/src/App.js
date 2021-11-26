@@ -45,7 +45,7 @@ function App() {
             <br/>
             <h1>{data}</h1>
             <br/>
-            {connectedToWS ? <TextFieldForm label="Add Topic" onSubmit={sendTopicToServer} /> : null } 
+            {connectedToWS && <TextFieldForm label="Add Topic" onSubmit={sendTopicToServer} /> } 
             <br/>
             <br/>
             <div>
