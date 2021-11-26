@@ -6,7 +6,7 @@ const app = express();
 
 var expressWs = require('express-ws')(app);
 
-const port = process.env.PORT || 3100;
+const port = process.env.PORT || 4000;
 
 app.use(morgan("combined"));
 

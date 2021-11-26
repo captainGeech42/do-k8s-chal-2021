@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "build-img": "rm -rf client_build && pushd ../mq-app && npm run build && popd && cp -r ../mq-app/build client_build && docker build -t mq-backend ."
+    "build-img": "rm -rf client_build && pushd ../mq-frontend && npm run build && popd && cp -r ../mq-frontend/build client_build && docker build -t mq-app ."
   },
   "author": "captainGeech42",
   "license": "MIT",
@@ -15,6 +15,7 @@
   "dependencies": {
     "express": "^4.17.1",
     "express-ws": "^5.0.2",
+    "kafkajs": "^1.15.0",
     "morgan": "^1.10.0"
   }
 }

@@ -3,7 +3,7 @@ import Button from "./components/Button.js";
 import axios from "axios"
 import TextFieldForm from "./components/TextFieldForm.js";
 
-const ws = new WebSocket("ws://localhost:3100");
+const ws = new WebSocket("ws://localhost:4000");
 
 function App() {
     const [data, setData] = useState("");
