@@ -66,3 +66,4 @@ Requires Node v16
 * https://www.educba.com/kafka-zookeeper/
 * https://www.baeldung.com/ops/kafka-docker-setup
 * https://kafka.js.org/docs/getting-started
+* https://javascript.info/promise-chaining

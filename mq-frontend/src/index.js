@@ -8,7 +8,6 @@ axios.get("/config").then((res) => {
     const ws = new WebSocket(`ws://${res.data.websocket_host}:${res.data.websocket_port}`);
     ws.onopen = () => {
         console.log("connected to ws");
-        //ws.send("hello world");
     }
 
     ReactDOM.render(

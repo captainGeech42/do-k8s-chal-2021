@@ -26,6 +26,8 @@ kafka_consumer.run({
     eachMessage: async ({ topic, partition, message }) => {
         console.log(`[Kafka] new message on topic "${topic}": ${message.value.toString()}`);
 
+        // broadcast the message to each connected client
+        // jank but works
         wss.clients.forEach((c) => {
             c.send(JSON.stringify({
                 action: "message_received",
@@ -37,46 +39,27 @@ kafka_consumer.run({
 
 app.ws("/", (ws) => {
     ws.on("message", (msg) => {
-        //try {
-            const data = JSON.parse(msg);
+        const data = JSON.parse(msg);
 
-            switch (data.action) {
-                case "new_topic":
-                    console.log(`[WS] new topic requested: ${data.name}`);
+        switch (data.action) {
+            case "new_message":
+                console.log(`[WS] sending message to topic "${data.topic}": ${data.message}`);
 
+                kafka_producer.send({
+                    topic: data.topic,
+                    messages: [
+                        { value: data.message }
+                    ]
+                }).then(() => {
+                    // ws.send("message sent");
+                })
 
-
-                    ws.send(JSON.stringify({
-                        action: "topic_created",
-                        name: data.name
-                    }));
-
-                    break;
-                case "new_message":
-                    console.log(`[WS] sending message to topic "${data.topic}": ${data.message}`);
-
-                    kafka_producer.send({
-                        topic: data.topic,
-                        messages: [
-                            { value: data.message }
-                        ]
-                    }).then(() => {
-                        ws.send("message sent");
-                    })
-
-                    break;
-                default:
-                    console.log(`[WS] unknown action: ${data.action}`);
-                    break;
-            }
-        //} catch {
-        //    console.log(`[WS] non json message: ${msg}`);
-        //}
+                break;
+            default:
+                console.log(`[WS] unknown action: ${data.action}`);
+                break;
+        }
     });
-});
-
-app.get("/test", (_, res) => {
-    res.send("hello world");
 });
 
 app.get("/config", (_, res) => {

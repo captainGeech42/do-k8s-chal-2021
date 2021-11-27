@@ -1,19 +1,9 @@
 import { useState } from "react";
-import Button from "./components/Button.js";
-import axios from "axios"
 import TextFieldForm from "./components/TextFieldForm.js";
 
 function App({websocket}) {
-    const [data, setData] = useState(""); // data from the test api button
     const [wsMsgs, setWsMsgs] = useState([]); // messages from websocket server
 
-    function sendTopicToServer(topic) {
-        websocket.send(JSON.stringify({
-            action: "new_topic",
-            name: topic,
-        }));
-    }
-    
     function sendMessageToServer(message) {
         websocket.send(JSON.stringify({
             action: "new_message",
@@ -28,18 +18,12 @@ function App({websocket}) {
 
     websocket.onmessage = (msg) => {
         console.log(`got ws message from server: ${msg.data}`);
-        console.log(msg);
-
-
 
         try {
             const data = JSON.parse(msg.data);
             switch (data.action) {
-                case "topic_created":
-                    addMsg(`New topic created: ${data.name}`);
-                    break;
                 case "message_received":
-                    addMsg(`Message received: ${data.msg}`);
+                    addMsg(data.msg)
                     break;
                 default:
                     addMsg(`Unknown action: ${data.action}`);
@@ -50,27 +34,19 @@ function App({websocket}) {
         }
     }
 
-    function click() {
-        console.log("clicked");
-        axios.get("/test").then((res) => {
-            const data = res.data;
-            setData(data);
-        });
-    }
-
     return (
         <div>
-            <Button body="test button" onClick={click}/>
+            <h1>Message Queue Demo App</h1>
+            <p>
+                This is a small demo app for the Digital Ocean Kubernetes Challenge 2021. See the repo for this project <a target="_blank" rel="noreferrer" href="https://github.com/captainGeech42/do-k8s-chal-2021">here</a>.
+            </p>
             <br/>
-            <h1>{data}</h1>
-            <br/>
-            {<TextFieldForm label="Add Topic" onSubmit={sendTopicToServer} /> } 
             {<TextFieldForm label="Send Message" onSubmit={sendMessageToServer} /> } 
             <br/>
-            <br/>
+            <h2>Messages</h2>
             <div>
-                {wsMsgs.map((d) => (
-                    <p key={d}>{d}</p>
+                {wsMsgs.map((d, idx) => (
+                    <p key={idx}>{d}</p>
                 ))}
             </div>
         </div>

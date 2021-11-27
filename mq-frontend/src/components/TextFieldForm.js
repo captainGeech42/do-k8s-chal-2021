@@ -15,9 +15,21 @@ function TextFieldForm({label, onSubmit}) {
 
     return (
         <form onSubmit={formSubmitted}>
-            <label htmlFor="text-field">{label}</label>
-            <input type="text" name="text-field" onChange={onUpdate} />
-            <input type="submit" value="Submit" />
+            <table>
+                <tbody>
+                    <tr>
+                        <td>
+                            <label htmlFor="text-field">{label}</label>
+                        </td>
+                        <td>
+                            <input type="text" name="text-field" onChange={onUpdate} />
+                        </td>
+                        <td>
+                            <input type="submit" value="Submit" />
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </form>
     );
 }
