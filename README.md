@@ -49,4 +49,4 @@ Requires Node v16
 * https://github.com/osu-cs419-w20/final-project-group18-marvelbrowser
 * https://www.educba.com/kafka-zookeeper/
 * https://www.baeldung.com/ops/kafka-docker-setup
-* https://trekinbami.medium.com/using-environment-variables-in-react-6b0a99d83cf5
+* https://kafka.js.org/docs/getting-started

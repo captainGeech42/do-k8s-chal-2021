@@ -3,13 +3,13 @@ version: "3"
 # https://www.baeldung.com/ops/kafka-docker-setup
 
 services:
-  app:
-    image: "mq-app"
-    ports:
-      - 4000:4000
-    environment:
-      - PORT=4000
-      - NODE_ENV=production
+#  app:
+#    image: "mq-app"
+#    ports:
+#      - 4000:4000
+#    environment:
+#      - PORT=4000
+#      - NODE_ENV=production
 
   zookeeper:
     image: confluentinc/cp-zookeeper:latest
