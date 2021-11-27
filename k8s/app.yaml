@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mq-app
+  namespace: mq-app
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: mq-app
+  template:
+    metadata:
+      labels:
+        app: mq-app
+    spec:
+      containers:
+      - name: mq-app
+        image: captaingeech/mq-app:latest
+        resources:
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
+        ports:
+        - containerPort: 4000
+        env:
+          - name: PORT
+            value: "4000"
+          - name: NODE_ENV
+            value: "production"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mq-app
+  namespace: mq-app
+spec:
+  selector:
+    app: mq-app
+  ports:
+  - port: 80
+    targetPort: 4000
+  type: LoadBalancer

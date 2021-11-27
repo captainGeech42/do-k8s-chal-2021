@@ -6,11 +6,9 @@ import TextFieldForm from "./components/TextFieldForm.js";
 const ws = new WebSocket("ws://localhost:4000");
 
 function App() {
-    const [data, setData] = useState("");
-
-    const [wsMsgs, setWsMsgs] = useState([]);
-
-    const [connectedToWS, setConnectedToWS] = useState(false);
+    const [data, setData] = useState(""); // data from the test api button
+    const [wsMsgs, setWsMsgs] = useState([]); // messages from websocket server
+    const [connectedToWS, setConnectedToWS] = useState(false); // connection status to the websocker server
 
     function click() {
         console.log("clicked");

@@ -1,12 +1,27 @@
 const express = require("express");
 const morgan = require("morgan");
 const path = require("path");
+const { Kafka } = require("kafkajs");
 
 const app = express();
 
-var expressWs = require('express-ws')(app);
+var expressWs = require("express-ws")(app);
 
 const port = process.env.PORT || 4000;
+
+var brokers;
+if (process.env.NODE_ENV === "production") {
+    // running in docker, use the one from the docker network
+    brokers = ["kafka:29092"];
+} else {
+    // running locally, use the port forwarded connection
+    brokers = ["localhost:29092"];
+}
+
+const kafka = new Kafka({
+    clientId: "mq-app",
+    brokers: brokers
+});
 
 app.use(morgan("combined"));
 

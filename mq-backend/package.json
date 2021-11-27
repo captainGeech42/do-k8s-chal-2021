@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "build-img": "rm -rf client_build && pushd ../mq-frontend && npm run build && popd && cp -r ../mq-frontend/build client_build && docker build -t mq-app ."
+    "build-img": "rm -rf client_build && pushd ../mq-frontend && npm run build && popd && cp -r ../mq-frontend/build client_build && docker build --platform=\"linux/amd64\" -t mq-app ."
   },
   "author": "captainGeech42",
   "license": "MIT",
