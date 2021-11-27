@@ -1,11 +1,22 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Button from "./components/Button.js";
 import axios from "axios"
-import WebsocketServer from "./components/WebsocketServer.js";
+import TextFieldForm from "./components/TextFieldForm.js";
 
-function App() {
+function App({websocket}) {
     const [data, setData] = useState(""); // data from the test api button
-    const [wsConnData, setWsConnData] = useState(false);
+    const [wsMsgs, setWsMsgs] = useState([]); // messages from websocket server
+
+    function sendTopicToServer(topic) {
+        websocket.send(topic)
+    }
+
+    websocket.onmessage = (msg) => {
+        console.log(`got ws message from server: ${msg.data}`);
+        console.log(msg);
+
+        setWsMsgs([...wsMsgs, msg.data]);
+    }
 
     function click() {
         console.log("clicked");
@@ -15,19 +26,20 @@ function App() {
         });
     }
 
-    useEffect(() => {
-        axios.get("/api/v1/config/config").then((res) => {
-            setWsConnData(res.data);
-        });
-    }, []);
-
     return (
         <div>
             <Button body="test button" onClick={click}/>
             <br/>
             <h1>{data}</h1>
             <br/>
-            {wsConnData && <WebsocketServer host={wsConnData.websocket_host} port={wsConnData.websocket_port} />}
+            {<TextFieldForm label="Add Topic" onSubmit={sendTopicToServer} /> } 
+            <br/>
+            <br/>
+            <div>
+                {wsMsgs.map((d) => (
+                    <p key={d}>{d}</p>
+                ))}
+            </div>
         </div>
     );
 }
