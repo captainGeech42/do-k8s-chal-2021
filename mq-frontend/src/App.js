@@ -1,14 +1,11 @@
 import { useEffect, useState } from "react";
 import Button from "./components/Button.js";
 import axios from "axios"
-import TextFieldForm from "./components/TextFieldForm.js";
-
-const ws = new WebSocket("ws://localhost:4000");
+import WebsocketServer from "./components/WebsocketServer.js";
 
 function App() {
     const [data, setData] = useState(""); // data from the test api button
-    const [wsMsgs, setWsMsgs] = useState([]); // messages from websocket server
-    const [connectedToWS, setConnectedToWS] = useState(false); // connection status to the websocker server
+    const [wsConnData, setWsConnData] = useState(false);
 
     function click() {
         console.log("clicked");
@@ -18,24 +15,11 @@ function App() {
         });
     }
 
-    function sendTopicToServer(topic) {
-        ws.send(topic)
-    }
-
     useEffect(() => {
-        ws.onopen = () => {
-            console.log("connected to ws");
-            ws.send("hello world");
-            setConnectedToWS(true);
-        }
-
-        ws.onmessage = (msg) => {
-            console.log(`got ws message from server: ${msg.data}`);
-            console.log(msg);
-
-            setWsMsgs([...wsMsgs, msg.data]);
-        }
-    });
+        axios.get("/api/v1/config/config").then((res) => {
+            setWsConnData(res.data);
+        });
+    }, []);
 
     return (
         <div>
@@ -43,14 +27,7 @@ function App() {
             <br/>
             <h1>{data}</h1>
             <br/>
-            {connectedToWS && <TextFieldForm label="Add Topic" onSubmit={sendTopicToServer} /> } 
-            <br/>
-            <br/>
-            <div>
-                {wsMsgs.map((d) => (
-                    <p key={d}>{d}</p>
-                ))}
-            </div>
+            {wsConnData && <WebsocketServer host={wsConnData.websocket_host} port={wsConnData.websocket_port} />}
         </div>
     );
 }

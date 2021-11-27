@@ -3,6 +3,8 @@ const morgan = require("morgan");
 const path = require("path");
 const { Kafka } = require("kafkajs");
 
+const api = require("./routes/api/api.js");
+
 const app = express();
 
 var expressWs = require("express-ws")(app);
@@ -35,6 +37,8 @@ app.ws("/", (ws, req) => {
 app.get("/test", (_, res) => {
     res.send("hello world");
 });
+
+app.use("/api", api);
 
 // https://github.com/conor-deegan/web-app-boilerplate/blob/master/server.js#L33
 if (process.env.NODE_ENV === 'production' || process.env.NODE_ENV === 'staging') {

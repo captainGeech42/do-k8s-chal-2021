@@ -4,7 +4,7 @@
   "description": "Backend API for the Kafka demo app",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js",
+    "dev": "HOST=localhost PORT=4000 nodemon server.js",
     "build-img": "rm -rf client_build && pushd ../mq-frontend && npm run build && popd && cp -r ../mq-frontend/build client_build && docker build --platform=\"linux/amd64\" -t mq-app ."
   },
   "author": "captainGeech42",
