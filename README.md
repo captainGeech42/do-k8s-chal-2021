@@ -4,6 +4,8 @@ Digital Ocean Kubernetes Challenge repo
 ## Challenge: Deploy a scalable message queue
 > A critical component of all the scalable architectures are message queues used to store and distribute messages to multiple parties and introduce buffering. Kafka is widely used in this space and there are multiple operators like Strimzi or to deploy it. For this project, use a sample app to demonstrate how your message queue works.
 
+A live demo is available [here](http://mq-demo-app.zanderwork.com/).
+
 ## Deployment:
 
 ### 1. Build the container image for the demo web app
@@ -34,6 +36,18 @@ You will need to update the `WS_HOST` env var in [`app.yaml`](k8s/app.yaml#L31)
 $ cd k8s
 $ ./deploy.sh
 ```
+
+## Local Testing
+
+To test locally, open 3 terminals and run the following commands, one per terminal:
+
+```
+$ cd mq-frontend && npm start
+$ cd mq-backend && npm run dev
+$ docker-compose up -d
+```
+
+It'll take a little while for Kafka to finish deploying, but once that finished you will be able to go to `localhost:3000` and use the app locally. The backend server listens on port 4000 by default.
 
 ## Architecture
 
