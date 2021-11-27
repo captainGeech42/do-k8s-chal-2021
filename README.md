@@ -28,6 +28,8 @@ https://github.com/digitalocean/Kubernetes-Starter-Kit-Developers/blob/main/01-s
 
 ### 4. Deploy to k8s
 
+You will need to update the `WS_HOST` env var in [`app.yaml`](k8s/app.yaml#L31)
+
 ```
 $ cd k8s
 $ ./deploy.sh
