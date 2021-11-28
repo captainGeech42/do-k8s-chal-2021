@@ -4,7 +4,11 @@ Digital Ocean Kubernetes Challenge repo
 ## Challenge: Deploy a scalable message queue
 > A critical component of all the scalable architectures are message queues used to store and distribute messages to multiple parties and introduce buffering. Kafka is widely used in this space and there are multiple operators like Strimzi or to deploy it. For this project, use a sample app to demonstrate how your message queue works.
 
-I built a simple React app with a NodeJS backend (via HTTP and Websockets) that adds messages to a Kafka topic, and broadcasts them to all clients. You can open the demo in multiple tabs, and see messages sent from one tab appear in another.
+tl;dr I built a simple React app with a NodeJS backend (via HTTP and Websockets) that adds messages to a Kafka topic, and broadcasts them to all clients. 
+
+Kafka is deployed using Strimzi, which was pretty easy to get running, thanks to their [Quick Start](https://strimzi.io/docs/operators/latest/quickstart.html) guide.
+
+Each client has a websocket connection to the server, and new messages that go into Kafka are sent from the frontend React app to the NodeJS backend using the websocket connection. The backend then publishes the message to Kafka, where a consumer who is subscribed to the topic will get the message, and broadcast it to each connected websocket client. You can open the demo in multiple tabs, and see messages sent from one tab appear in another.
 
 A live demo is available [here](http://mq-demo-app.zanderwork.com/).
 
